@@ -1,4 +1,3 @@
-import javax.sound.midi.Soundbank;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -6,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.SortedSet;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -18,7 +16,7 @@ public class Main {
 
         while (!sair) {
             System.out.println("\nBEM VINDO! SELECIONE UMA DAS OPÇÕES ABAIXO:");
-            System.out.println("1 - CADSTRAR CONTA");
+            System.out.println("1 - CADASTRAR CONTA");
             System.out.println("2 - CONSULTAR CONTA");
             System.out.println("3 - SAIR");
             int opcao = Integer.parseInt(br.readLine());
@@ -46,13 +44,13 @@ public class Main {
                     System.out.print("CADSTRE UMA SENHA DE 6 DÍGITOS (APENAS NÚMEROS): ");
                     int senha = Integer.parseInt(br.readLine());
 
-                    if (tipoConta == 1){
+                    if (tipoConta == 1) {
                         System.out.print("CADASTRE UMA CHAVE PIX: ");
                         String chavePix = br.readLine();
                         ContaCorrente contaCorrente = new ContaCorrente(pessoa, agencia, numeroConta, senha, chavePix);
                         listaContas.add(contaCorrente);
                         System.out.println("Conta Corrente adicionada com suceso!");
-                    }else {
+                    } else {
                         ContaPoupanca contaPoupanca = new ContaPoupanca(pessoa, agencia, numeroConta, senha);
                         listaContas.add(contaPoupanca);
                         System.out.println("Conta Poupança adicionada com suceso!");
@@ -78,20 +76,20 @@ public class Main {
                             break;
                         }
                     }
-                    if (contaEncontrada == null){
+                    if (contaEncontrada == null) {
                         System.out.println("Conta não localizada! Verifique os dados informados.");
-                    }else {
+                    } else {
                         System.out.println("\nBEM VINDO " + contaEncontrada.getTitular().getNome() + "!");
                         System.out.println("SALDO R$" + contaEncontrada.getSaldo());
 
-                        if (contaEncontrada instanceof ContaCorrente){
+                        if (contaEncontrada instanceof ContaCorrente) {
                             ContaCorrente contaCorrente = (ContaCorrente) contaEncontrada;
                             boolean exit = false;
-                            while (!exit){
+                            while (!exit) {
                                 System.out.println("1-DEPOSITAR   2-SACAR   3-TRANSFERIR   4-SALDO   5-ENCERRAR CONTA   6-VOLTAR");
                                 int opcaoContaCorrente = Integer.parseInt(br.readLine());
 
-                                switch (opcaoContaCorrente){
+                                switch (opcaoContaCorrente) {
                                     case 1:
                                         System.out.print("Valor depósito: R$");
                                         BigDecimal valorDeposito = BigDecimal.valueOf(Integer.parseInt(br.readLine()));
@@ -131,18 +129,30 @@ public class Main {
                         } else if (contaEncontrada instanceof ContaPoupanca) {
                             ContaPoupanca contaPoupanca = (ContaPoupanca) contaEncontrada;
                             boolean exit = false;
-                            while (!exit){
+                            while (!exit) {
                                 System.out.println("1-APLICAR   2-RESGATAR   3-SALDO   4-ENCERRAR CONTA   5-VOLTAR");
                                 int opcaoContaPoupanca = Integer.parseInt(br.readLine());
 
-                                switch (opcaoContaPoupanca){
+                                switch (opcaoContaPoupanca) {
                                     case 1:
+                                        System.out.print("Valor a depositar com rendimento: R$");
+                                        BigDecimal valorDepositarComRendimento = new BigDecimal(br.readLine());
+                                        contaPoupanca.depositarERender(valorDepositarComRendimento);
+                                        System.out.println("Depósito com rendimento realizado com sucesso. Saldo aplicado: R$ " + valorDepositarComRendimento + ", valor total: R$ " + contaPoupanca.getSaldo());
                                         break;
+
                                     case 2:
+                                        System.out.println("Valor para resgate de aplicação R$ ");
+                                        BigDecimal valorResgatarComRendimento = new BigDecimal(br.readLine());
+                                        contaPoupanca.resgatarRendimento(valorResgatarComRendimento);
+                                        System.out.println("Valor aplicado resgatado com sucesso! Novo saldo: R$ " + contaPoupanca.getSaldo());
                                         break;
                                     case 3:
+                                        System.out.println("Saldo atual: R$" + contaPoupanca.getSaldo());
                                         break;
                                     case 4:
+                                        listaContas.remove(contaPoupanca);
+                                        System.out.println("Conta encerrada.");
                                         exit = true;
                                         break;
                                     case 5:

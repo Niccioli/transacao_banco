@@ -41,7 +41,7 @@ public class Main {
                     int agencia = random.nextInt(9000) + 1000;
                     int numeroConta = random.nextInt(90000) + 10000;
 
-                    System.out.print("CADSTRE UMA SENHA DE 6 DÍGITOS (APENAS NÚMEROS): ");
+                    System.out.print("CADASTRE UMA SENHA DE 6 DÍGITOS (APENAS NÚMEROS): ");
                     int senha = Integer.parseInt(br.readLine());
 
                     if (tipoConta == 1) {
@@ -49,11 +49,11 @@ public class Main {
                         String chavePix = br.readLine();
                         ContaCorrente contaCorrente = new ContaCorrente(pessoa, agencia, numeroConta, senha, chavePix);
                         listaContas.add(contaCorrente);
-                        System.out.println("Conta Corrente adicionada com suceso!");
+                        System.out.println("Conta Corrente adicionada com sucesso!");
                     } else {
                         ContaPoupanca contaPoupanca = new ContaPoupanca(pessoa, agencia, numeroConta, senha);
                         listaContas.add(contaPoupanca);
-                        System.out.println("Conta Poupança adicionada com suceso!");
+                        System.out.println("Conta Poupança adicionada com sucesso!");
                     }
                     System.out.println("Conta cadastrada com sucesso! titular: " + nome + ", agência: " + agencia + " conta: " + numeroConta);
                     Thread.sleep(2000);
@@ -94,7 +94,7 @@ public class Main {
                                         System.out.print("Valor depósito: R$");
                                         BigDecimal valorDeposito = BigDecimal.valueOf(Integer.parseInt(br.readLine()));
                                         contaCorrente.depositar(valorDeposito);
-                                        System.out.println("Deposito realizado com sucesso.");
+                                        System.out.println("Depósito realizado com sucesso.");
                                         break;
                                     case 2:
                                         System.out.print("Valor de saque: R$");

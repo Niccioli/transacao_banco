@@ -11,10 +11,7 @@ public class ContaPoupanca extends Conta {
 
     public void depositarERender(BigDecimal valor) {
         if (valor.compareTo(BigDecimal.ZERO) > 0) {
-            // Calcule o rendimento (1% do valor) e adicione ao saldo.
             BigDecimal rendimento = valor.multiply(new BigDecimal("0.01"));
-
-            // Adicione o valor e o rendimento ao saldo da conta poupança.
             BigDecimal novoSaldo = getSaldo().add(valor).add(rendimento);
             setSaldo(novoSaldo);
         } else {

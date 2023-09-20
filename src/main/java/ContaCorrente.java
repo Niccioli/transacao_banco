@@ -1,5 +1,4 @@
 import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,7 +21,7 @@ public class ContaCorrente extends Conta{
     }
 
     public void sacar(BigDecimal valor){
-        if (valor.compareTo(BigDecimal.ZERO) > 0 && getSaldo().compareTo(valor) >= 0){
+        if (valor.compareTo(BigDecimal.ZERO) > 0 && getSaldo().compareTo(valor) > 0){
             BigDecimal novoSaldo = getSaldo().subtract(valor);
             setSaldo(novoSaldo);
         }else {
@@ -46,6 +45,6 @@ public class ContaCorrente extends Conta{
                 }
             }
         }
-        System.out.println("Conta não informada não identificada");
+        System.out.println("Conta informada não identificada");
     }
 }

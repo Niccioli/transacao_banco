@@ -1,4 +1,3 @@
-import javax.sound.midi.Soundbank;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -6,11 +5,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.SortedSet;
+import java.util.UUID;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
 
+        UUID uuid =UUID.randomUUID();
         List<Conta> listaContas = new ArrayList<>();
         Random random = new Random();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -88,18 +88,18 @@ public class Main {
                             ContaCorrente contaCorrente = (ContaCorrente) contaEncontrada;
                             boolean exit = false;
                             while (!exit){
-                                System.out.println("1-DEPOSITAR   2-SACAR   3-TRANSFERIR   4-SALDO   5-ENCERRAR CONTA   6-VOLTAR");
+                                System.out.println("\n1-DEPOSITAR   2-SACAR   3-TRANSFERIR   4-SALDO   5-ENCERRAR CONTA   6-VOLTAR");
                                 int opcaoContaCorrente = Integer.parseInt(br.readLine());
 
                                 switch (opcaoContaCorrente){
                                     case 1:
-                                        System.out.print("Valor depósito: R$");
+                                        System.out.print("Valor depósito: R$ ");
                                         BigDecimal valorDeposito = BigDecimal.valueOf(Integer.parseInt(br.readLine()));
                                         contaCorrente.depositar(valorDeposito);
                                         System.out.println("Deposito realizado com sucesso.");
                                         break;
                                     case 2:
-                                        System.out.print("Valor de saque: R$");
+                                        System.out.print("Valor de saque: R$ ");
                                         BigDecimal valorSaque = BigDecimal.valueOf(Integer.parseInt(br.readLine()));
                                         contaCorrente.sacar(valorSaque);
                                         System.out.println("Saque realizado com sucesso.");
@@ -107,14 +107,16 @@ public class Main {
                                     case 3:
                                         System.out.print("Chave PIX conta destino: ");
                                         String chavePixContaDestino = br.readLine();
-                                        System.out.print("Valor transferência: R$");
+                                        System.out.print("Valor transferência: R$ ");
                                         BigDecimal valorTransferencia = BigDecimal.valueOf(Integer.parseInt(br.readLine()));
                                         System.out.println("Transferência realizada com sucesso!");
+                                        String uuidStr = uuid.toString();
+                                        System.out.println("ID transação: " + uuidStr);
 
                                         contaCorrente.pixTransferencia(valorTransferencia, chavePixContaDestino, listaContas);
                                         break;
                                     case 4:
-                                        System.out.println("Saldo atual: R$" + contaCorrente.getSaldo());
+                                        System.out.println("Saldo atual: R$ " + contaCorrente.getSaldo());
                                         break;
                                     case 5:
                                         listaContas.remove(contaCorrente);
@@ -137,12 +139,23 @@ public class Main {
 
                                 switch (opcaoContaPoupanca){
                                     case 1:
+                                        System.out.print("Valor da aplicação: R$");
+                                        BigDecimal valorDepositarComRendimento = new BigDecimal(br.readLine());
+                                        contaPoupanca.aplicarPoupanca(valorDepositarComRendimento);
+                                        System.out.println("Aplicação realizada com sucesso! Saldo (aplicação + 1% juros): R$ " + contaPoupanca.getSaldo());
                                         break;
                                     case 2:
+                                        System.out.println("Valor para resgate da aplicação R$ ");
+                                        BigDecimal valorResgatarComRendimento = new BigDecimal(br.readLine());
+                                        contaPoupanca.resgateAplicacaoPoupanca(valorResgatarComRendimento);
+                                        System.out.println("Resgate efetuado com sucesso! Saldo atual R$ " + contaPoupanca.getSaldo());
                                         break;
                                     case 3:
+                                        System.out.println("Saldo atual: R$" + contaPoupanca.getSaldo());
                                         break;
                                     case 4:
+                                        listaContas.remove(contaPoupanca);
+                                        System.out.println("Conta encerrada.");
                                         exit = true;
                                         break;
                                     case 5:
